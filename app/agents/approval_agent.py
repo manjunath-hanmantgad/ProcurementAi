@@ -6,6 +6,10 @@ from typing import Dict, Any, List
 from app.db.database import get_connection
 from app.schemas.approval import ApprovalDecision, ApprovalEvidence, FinalApprovalPacket
 from app.schemas.purchase_request import PurchaseRequest
+from app.tracing import get_langfuse_handler
+
+
+_LANGFUSE_HANDLER = get_langfuse_handler()
 
 
 class ApprovalAgent:

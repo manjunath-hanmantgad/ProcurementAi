@@ -1,6 +1,10 @@
 from app.schemas.purchase_request import PurchaseRequest
 from app.schemas.policy import PolicyDecision
 from app.rag.retriever import search_policy_docs
+from app.tracing import get_langfuse_handler
+
+
+_LANGFUSE_HANDLER = get_langfuse_handler()
 
 
 class PolicyAgent:

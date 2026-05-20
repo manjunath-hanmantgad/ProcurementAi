@@ -2,6 +2,10 @@ from typing import List
 
 from app.db.database import get_connection
 from app.schemas.vendor import VendorRecord, VendorStatus
+from app.tracing import get_langfuse_handler
+
+
+_LANGFUSE_HANDLER = get_langfuse_handler()
 
 
 class VendorAgent:

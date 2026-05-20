@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from contextlib import asynccontextmanager
 from typing import Optional
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from app.db.database import init_db, get_connection
 from app.config import HOST, PORT, CORS_ORIGINS
@@ -52,6 +54,11 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "healthy"}
+
+
+@app.get("/metrics", include_in_schema=False)
+def metrics_endpoint() -> Response:
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
 # ---- Purchase Request Endpoints ----

@@ -1,0 +1,125 @@
+{
+  "version": "1.0",
+  "project": "procureai",
+  "cases": [
+    {
+      "id": "budget-001",
+      "description": "IT department has budget available for 100000 INR purchase",
+      "category": "budget",
+      "input": {"department": "IT", "amount": 100000},
+      "expected": {"budget_status": "available", "current_remaining": 180000, "remaining_after": 80000},
+      "requires_live_llm": false
+    },
+    {
+      "id": "budget-002",
+      "description": "HR department budget is insufficient for 130000 INR",
+      "category": "budget",
+      "input": {"department": "HR", "amount": 130000},
+      "expected": {"budget_status": "insufficient", "current_remaining": 125000, "remaining_after": -5000},
+      "requires_live_llm": false
+    },
+    {
+      "id": "budget-003",
+      "description": "Engineering budget boundary condition at exact remaining amount",
+      "category": "budget",
+      "input": {"department": "Engineering", "amount": 350000},
+      "expected": {"budget_status": "available", "current_remaining": 350000, "remaining_after": 0},
+      "requires_live_llm": false
+    },
+    {
+      "id": "budget-004",
+      "description": "unknown department defaults to zero budget",
+      "category": "budget",
+      "input": {"department": "UnknownDept", "amount": 1},
+      "expected": {"budget_status": "insufficient", "current_remaining": 0, "remaining_after": -1},
+      "requires_live_llm": false
+    },
+    {
+      "id": "policy-001",
+      "description": "small hardware purchase is policy compliant",
+      "category": "policy",
+      "input": {
+        "request": {
+          "request_id": "EVAL-POL-001",
+          "department": "IT",
+          "requester": "Eval User",
+          "vendor": "Dell",
+          "category": "hardware",
+          "amount": 20000,
+          "justification": "Peripheral replacement",
+          "urgency": "normal"
+        }
+      },
+      "expected": {"policy_status": "compliant", "required_approvers": []},
+      "requires_live_llm": false
+    },
+    {
+      "id": "policy-002",
+      "description": "software subscription above 25000 requires manager and security review",
+      "category": "policy",
+      "input": {
+        "request": {
+          "request_id": "EVAL-POL-002",
+          "department": "IT",
+          "requester": "Eval User",
+          "vendor": "Adobe",
+          "category": "software_subscription",
+          "amount": 30000,
+          "justification": "Design software",
+          "urgency": "normal"
+        }
+      },
+      "expected": {
+        "policy_status": "requires_manager_approval",
+        "required_approvers": ["department_manager", "security_team"]
+      },
+      "requires_live_llm": false
+    },
+    {
+      "id": "policy-003",
+      "description": "large legal services purchase requires director and legal approvals",
+      "category": "policy",
+      "input": {
+        "request": {
+          "request_id": "EVAL-POL-003",
+          "department": "Finance",
+          "requester": "Eval User",
+          "vendor": "Law Co",
+          "category": "legal_services",
+          "amount": 600000,
+          "justification": "Regulatory advisory",
+          "urgency": "high"
+        }
+      },
+      "expected": {
+        "policy_status": "requires_manager_approval",
+        "required_approvers": ["department_manager", "finance_controller", "director", "legal_team"]
+      },
+      "requires_live_llm": false
+    },
+    {
+      "id": "risk-001",
+      "description": "data services are treated as high risk",
+      "category": "risk",
+      "input": {"category": "data_services"},
+      "expected": {"risk_level": "high", "required_flags": ["data_services_requires_compliance_review"]},
+      "requires_live_llm": false
+    },
+    {
+      "id": "risk-002",
+      "description": "software subscription triggers security review flag",
+      "category": "risk",
+      "input": {"category": "software_subscription"},
+      "expected": {"risk_level": "medium", "required_flags": ["software_subscription_requires_security_review"]},
+      "requires_live_llm": false
+    },
+    {
+      "id": "risk-003",
+      "description": "office supplies remain low risk with no flags",
+      "category": "risk",
+      "input": {"category": "office_supplies"},
+      "expected": {"risk_level": "low", "required_flags": []},
+      "requires_live_llm": false
+    }
+  ]
+}

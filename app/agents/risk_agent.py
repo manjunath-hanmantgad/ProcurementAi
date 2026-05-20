@@ -5,6 +5,7 @@ from typing import List
 from app.db.database import get_connection
 from app.schemas.purchase_request import PurchaseRequest
 from app.schemas.risk import DuplicateCheck, RiskDecision
+from app.tracing import get_langfuse_handler
 
 
 HIGH_RISK_CATEGORIES = {
@@ -13,6 +14,8 @@ HIGH_RISK_CATEGORIES = {
     "consulting": "Consulting engagements above 50,000 INR require board notification.",
     "security_services": "Security services require vendor security audit.",
 }
+
+_LANGFUSE_HANDLER = get_langfuse_handler()
 
 
 class RiskAgent:

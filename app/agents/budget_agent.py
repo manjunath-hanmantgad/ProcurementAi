@@ -1,5 +1,9 @@
 from app.db.database import get_connection
 from app.schemas.budget import BudgetRecord, BudgetDecision
+from app.tracing import get_langfuse_handler
+
+
+_LANGFUSE_HANDLER = get_langfuse_handler()
 
 
 class BudgetAgent:
